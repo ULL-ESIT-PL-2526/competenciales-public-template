@@ -1,0 +1,7 @@
+{
+  int i;
+  i = 0;
+
+  // Runtime error: i is a number, so i[0] is undefined and i[0][0] crashes.
+  print(i[0][0]);
+}

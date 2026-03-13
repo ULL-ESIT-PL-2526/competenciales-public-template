@@ -1,0 +1,17 @@
+/* 
+Compile with dragon: bin/drg2js.cjs examples/loop04.drg -vo /tmp/loop04.js
+*/
+{
+    bool a;
+    do {
+        a = true;
+        while (a) {
+            print(a); // true
+            break;
+        }
+        a = !a;
+        print(a);     // false
+        break;
+    } while (!a);
+    print(a);         // false
+}

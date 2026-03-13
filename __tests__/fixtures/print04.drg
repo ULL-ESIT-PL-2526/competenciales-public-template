@@ -1,0 +1,14 @@
+{
+    float[2][2] x;
+    int i; int j;
+    i = 0; j = 0;
+    while ( i < 2 ) {
+        j = 0;
+        while ( j < 2 ) {
+            x[i][j] = i+j;
+            j = j + 1;
+        }
+        i = i + 1;
+    }
+    print(x);
+}

@@ -1,0 +1,6 @@
+{    // checking types for temporaries and inferred variables
+    float[5] x; float[10][5] y; 
+    float n;
+    x = y[6];
+    n = x[2];
+}
