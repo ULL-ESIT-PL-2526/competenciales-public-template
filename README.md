@@ -2,6 +2,20 @@
 
 A small compiler lab that translates from Dragon language programs to JavaScript.
 
+## Warning 
+
+> [!CAUTION]
+> Some of the documentation files have been written with the assistance of AI tools. If you find any errors, inconsistencies, or areas that need improvement, please feel free to edit the documentation and submit a pull request with your changes. 
+
+
+## Template Updates for Prácticas Competenciales (Competency Labs)
+
+See instructions for template updates [docs/template-updates.md](docs/template-updates.md)
+
+## Template Updates for Prácticas Competenciales (Competency Labs)
+
+See instructions for template updates [docs/template-updates.md](docs/template-updates.md)
+
 ## Overview
 
 Current pipeline includes:
@@ -160,3 +174,12 @@ Simplified project structure:
 ### tmp folder
 
 The `tmp` folder is "ignored" by git (`.gitignore`) and we suggest you use it for temporary outputs during development. We leave it here so that you can see some examples we have left of generated JavaScript files and AST json to imitate. 
+
+## How to do it 
+
+- [Grammar](docs/grammar/README.md)
+- [Types](docs/grammar/types/types-and-initialization.md)
+- [Lexer](docs/lexer/README.md)
+- [The driver: drg2js](docs/drg2js/README.md)
+- [Sandboxes](docs/sandbox/README.md)
+- [Sourcemaps](docs/sourcemap/README.md)
