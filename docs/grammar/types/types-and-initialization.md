@@ -2,15 +2,27 @@
 
 ## typeNode and elementType
 
-Run: 
+See the source file [/examples/initializations.drg](/examples/initializations.drg): 
+
+```C
+{
+    int[3][2] arr;
+    char s;
+    bool b;
+    int i;
+    float f;
+} 
+```
+
+Run the command: 
 
 ```
 bin/drg2js.cjs examples/initializations.drg --ast -o tmp/initializations.js
 ```
 
-This generates [tmp/initializations.js](tmp/initializations.js) and [tmp/initializations.js.ast.json](tmp/initializations.js.ast.json). The generated JavaScript contains variable declarations with initializers, and the AST includes custom `typeNode` attributes that store the original type information for later use in type checking and code generation.
+This generates [/tmp/initializations.js](/tmp/initializations.js) and [/tmp/initializations.js.ast.json](/tmp/initializations.js.ast.json). The generated JavaScript contains variable declarations with initializers, and the AST includes custom `typeNode` attributes that store the original type information for later use in type checking and code generation.
 
-The code  `bool b;` will be translated to `let $b = false;`. Here follows the corresponding `VariableDeclaration`  node in the AST:
+The code  `bool b;` should be translated to `let $b = false;`. Here follows the corresponding `VariableDeclaration`  node in the AST:
 
 ```json
         {
@@ -48,7 +60,7 @@ The `init` field is set to `false`, which is the default value for boolean varia
 
 The  `typeNode` attribute is not part of the Babel/ESTree spec, but we use it to store the original type information (like `bool`, `int[5]`, etc.) that our scope analysis can later use for type checking and code generation. **It's perfectly fine to add custom attributes to AST nodes to store additional information your compiler needs. The final code generator ignores `typeNode` and only cares about the `init`, which is already a valid JavaScript value.**
 
-For the array delcaration `int[3][2] arr;`, the generated JavaScript is more complex:
+For the array declaration `int[3][2] arr;`, the generated JavaScript is more complex:
 
 ```js 
 let $arr = Array.from({ length: 2 }, () => Array.from({ length: 3 }, () => 0));
@@ -182,11 +194,74 @@ type : BASIC
      ;
 ```
 
+### Parse Tree de `int [3][5]`
+
+La regla es **left-recursive** (`type '[' NUM ']'` tiene `type` a la izquierda), construyéndose de adentro hacia afuera:
+
+```
+Paso 1: BASIC → int
+        { kind: 'number', baseType: 'int' }
+
+Paso 2: type '[' NUM ']' con NUM=3
+        { kind: 'array', elementType: { kind: 'number', baseType: 'int' }, size: 3 }
+
+Paso 3: type '[' NUM ']' con NUM=5
+        { kind: 'array', 
+          elementType: { kind: 'array', 
+                         elementType: { kind: 'number', baseType: 'int' }, 
+                         size: 3 }, 
+          size: 5 }
+```
+
+Visualmente, el árbol de análisis es:
+
+```mermaid
+graph TB
+    root["type (int[3][5])<br/>= buildArrayType(type[3], 5)"]
+    
+    branch1["type (int[3])<br/>= buildArrayType(type, 3)"]
+    bracket1["'['"]
+    num1["NUM = 5"]
+    rbracket1["']'"]
+    
+    branch2["type (int)<br/>= buildType(BASIC)"]
+    bracket2["'['"]
+    num2["NUM = 3"]
+    rbracket2["']'"]
+    
+    leaf["BASIC = int<br/>→ {kind:'number', baseType:'int'}"]
+    
+    root --> branch1
+    root --> bracket1
+    root --> num1
+    root --> rbracket1
+    
+    branch1 --> branch2
+    branch1 --> bracket2
+    branch1 --> num2
+    branch1 --> rbracket2
+    
+    branch2 --> leaf
+    
+    style root fill:#1976d2,color:#fff,stroke:#0d47a1,stroke-width:3px
+    style branch1 fill:#42a5f5,color:#fff,stroke:#1565c0,stroke-width:2px
+    style branch2 fill:#64b5f6,color:#fff,stroke:#1976d2,stroke-width:2px
+    style leaf fill:#90caf9,color:#000,stroke:#1976d2,stroke-width:2px
+    style bracket1 fill:#ffd54f,color:#000
+    style bracket2 fill:#ffd54f,color:#000
+    style rbracket1 fill:#ffd54f,color:#000
+    style rbracket2 fill:#ffd54f,color:#000
+    style num1 fill:#ffb74d,color:#000
+    style num2 fill:#ffb74d,color:#000
+```
+
+---
+
 - `buildType()` creates a simple type node for basic types like `int`, `float`, `bool`, and `char`.
  
     ```js
     function buildType(typeNode, loc) {
-    return withLoc(typeNode, loc);
+        return withLoc(typeNode, loc);
     }
 - `buildBasicType()` maps the basic type keywords to our internal type representation (e.g., `int` → `{ kind: 'number', baseType: 'int' }`).
     
@@ -207,15 +282,23 @@ type : BASIC
     }
     ```
 
-- **`BASIC`**: One of `int`, `float`, `char`, `bool`. **kind** will be one of `"number"`, `"boolean"`, or `"char"` 
-  - Creates type object: `{ kind: 'number', baseType: 'int' }`
-  
-- **Array types**: Right-recursive to handle multi-dimensional arrays
-  - `int [5]` → array of 5 ints
-  - `int [3][5]` → array of 3, each containing array of 5 ints
-  - Builds nested type object: `{ kind: 'array', elementType: {...}, size: 5 }`
+### The `BASIC` token 
 
-**typeNode objects examples**:
+One of `int`, `float`, `char`, `bool`. `"char"` 
+- Creates type object: `{ kind: 'number', baseType: 'int' }`
+    
+    **kind** will be one of `"number"`, `"boolean"`, or `"char"`
+
+### Array types 
+
+Handle multi-dimensional arrays
+
+- `int [5]` → array of 5 ints
+- `int [3][5]` → array of 3, each containing array of 5 ints
+- Builds nested type object: `{ kind: 'array', elementType: {...}, size: 5 }`
+
+### typeNode objects examples
+
 ```javascript
 // int
 { kind: 'number', baseType: 'int' }
