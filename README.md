@@ -12,10 +12,6 @@ A small compiler lab that translates from Dragon language programs to JavaScript
 
 See instructions for template updates [docs/template-updates.md](docs/template-updates.md)
 
-## Template Updates for Prácticas Competenciales (Competency Labs)
-
-See instructions for template updates [docs/template-updates.md](docs/template-updates.md)
-
 ## Overview
 
 Current pipeline includes:
