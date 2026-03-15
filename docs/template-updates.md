@@ -1,4 +1,6 @@
-## Remotes
+# Updating your assignment with teacher updates
+
+## Remote
 
 When in your working copy of the assignment you must have two remotes configured:
 - `origin` pointing to your own fork (where you push your changes)
@@ -14,6 +16,8 @@ upstream        https://github.com/ULL-ESIT-PL-2526/procesadores-de-lenguajes-25
 
 ## Fetch from upstream
 
+The teachers will announce when they have made updates to the original template repository.
+This is certainly the case for projects that expand for several weeks or months using the same repository.  When that happens, you should fetch those updates into your local repository.
 To get the latest updates from the original template repository, run:
 
 ```
@@ -68,3 +72,11 @@ Actualizada 1 ruta desde aeddf7e
 -rw-r--r--@ 1 casianorodriguezleon  staff  966 15 mar.  05:49 docs/grammar/README.md
 ```
 
+## Merge the changes from `upstream/main` into your `main` branch:
+
+When, after examination, you feel is safe to merge, you can merge the changes from `upstream/main` into your `main` branch: 
+```
+➜  dragon2js-casiano-rodriguez-leon-alu0100291865 git:(main) git merge upstream/main
+```
+
+## Navigation: [← Previous](/README.md) | [↑ Top](/README.md) | [Next →](/docs/grammar/README.md)
