@@ -69,7 +69,7 @@ In `buildPrintStmt()`:
 ```
 
 **Why**: 
-- Dragon `print x;` becomes JavaScript `console.log(x);`
+- Dragon `print(x);` becomes JavaScript `console.log(x);`
 - No need for runtime library
 - Direct JavaScript interop
 
