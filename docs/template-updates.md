@@ -21,30 +21,28 @@ This is certainly the case for projects that expand for several weeks or months 
 To get the latest updates from the original template repository, run:
 
 ```
-➜  dragon2js-casiano-rodriguez-leon-alu0100291865 git:(main) git fetch upstream main
-Desde https://github.com/ULL-ESIT-PL-2526/procesadores-de-lenguajes-25-26-dragon2js-dragon2js-template
- * branch            main       -> FETCH_HEAD
+git remote add template https://github.com/ULL-ESIT-PL-2526/competenciales-public-template.git
 ```
-
-This fetches the latest commits from the `main` branch of the `upstream` repository and updates your local `FETCH_HEAD`. Now you can merge or rebase these changes into your own `main` branch as needed.
-
-Now your branch `upstream/main` is up to date with the latest changes from the original template repository. You can view all your branches with:
+And then fetch the latest changes from the `main` branch of the `upstream` repository:
 
 ```
-  dragon2js-casiano-rodriguez-leon-alu0100291865 git:(main) git -P branch -a
-* main
-  remotes/origin/HEAD -> origin/main
-  remotes/origin/main
-  remotes/upstream/HEAD -> upstream/main
-  remotes/upstream/main
+git fetch template main
 ```
+
+This fetches the latest commits from the `main` branch of the `template` repository and updates your local `FETCH_HEAD`. 
+You can view all your branches with:
+
+```
+git -P branch -a
+```
+This should show you the `template/main` branch, which is the latest state of the `main` branch from the `template` repository.
 
 ## Looking for what is new 
 
-Have a look at the differences between your `main` and `upstream/main` branches to see what files have changed from the last timeyou pick up the upstream remote using `git -P diff --name-only upstream/main`:
+Have a look at the differences between your `main` and `template/main` branches to see what files have changed from the last timeyou pick up the template remote using `git -P diff --name-only template/main`:
 
 ```
-➜  dragon2js-casiano-rodriguez-leon-alu0100291865 git:(main) git -P diff --name-only upstream/main
+➜  dragon2js-casiano-rodriguez-leon-alu0100291865 git:(main) git -P diff --name-only template/main
 README.md
 docs/grammar/README.md
 docs/grammar/ast-node-types.md
@@ -60,23 +58,16 @@ docs/grammar/references.md
 docs/grammar/types/types-and-initialization.md
 ```
 
-## Picking up files from upstream/main
+## Picking up files from template/main
 
 
-Pick up individual files (or all of them). For instance, to bring file `docs/grammar/README.md` from the upstream branch: 
+Pick up individual files (or all of them). For instance, to bring file `docs/grammar/README.md` from the template branch: 
 
 ```
-➜  dragon2js-casiano-rodriguez-leon-alu0100291865 git:(main) git checkout upstream/main docs/grammar/README.md
+➜  dragon2js-casiano-rodriguez-leon-alu0100291865 git:(main) git checkout template/main docs/grammar/README.md
 Actualizada 1 ruta desde aeddf7e
-➜  dragon2js-casiano-rodriguez-leon-alu0100291865 git:(main) ✗ git -P diff upstream/main README.md
+➜  dragon2js-casiano-rodriguez-leon-alu0100291865 git:(main) ✗ git -P diff template/main README.md
 ➜  dragon2js-casiano-rodriguez-leon-alu0100291865 git:(main) ✗ 
-```
-
-## Merge the changes from `upstream/main` into your `main` branch:
-
-When, after examination, you feel is safe to merge, you can merge the changes from `upstream/main` into your `main` branch: 
-```
-➜  dragon2js-casiano-rodriguez-leon-alu0100291865 git:(main) git merge upstream/main
 ```
 
 ## Navigation: [← Previous](/README.md) | [↑ Top](/README.md) | [Next →](/docs/grammar/README.md)
