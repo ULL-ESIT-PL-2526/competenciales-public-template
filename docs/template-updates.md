@@ -74,6 +74,11 @@ We can also use `git restore`:
 git restore --source template/main docs/grammar/README.md
 ```
 
-You can specify as many files as you want in the command: `git restore --source template/main 'docs/t*.md'`. Notice the use of quotes to avoid shell expansion of the wildcard. 
+You can specify as many files as you want in the command: 
+```
+git restore --source template/main 'docs/t*.md'
+````
+
+Notice the use of quotes to avoid shell expansion of the wildcard. 
 
 ## Navigation: [← Previous](/README.md) | [↑ Top](/README.md) | [Next →](/docs/grammar/README.md)
