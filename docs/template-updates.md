@@ -1,6 +1,6 @@
 # Updating your assignment with teacher updates
 
-## Remote
+## Add Remote `ULL-ESIT-PL-2526/competenciales-public-template`
 
 When in your working copy of the assignment you have one remote `origin` pointing to your GitHUb assignment repository in the PL organization. Confirm that with:
 
@@ -8,7 +8,7 @@ When in your working copy of the assignment you have one remote `origin` pointin
 git remote -v
 ```
 
-To get the latest updates the teachers have added to the original template repository, you must first 
+To get the latest updates the teachers will add during the course, you must first 
 add as a remote the repo `ULL-ESIT-PL-2526/competenciales-public-template`:
 
 ```
