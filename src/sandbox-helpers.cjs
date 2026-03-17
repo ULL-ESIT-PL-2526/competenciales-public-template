@@ -27,7 +27,7 @@ function escapeRegExp(text) {
 function extractLocationFromStack(stackText, filename) {
     if (!stackText) return null;
     const escaped = escapeRegExp(filename);
-    const match = stackText.match(new RegExp(`${escaped}:(\\d+)(?::(\\d+))?`));
+    const match = stackText.match(new RegExp(`${escaped}:(\\d+)(?::(\\d+))`)); // Second par is not optional!
     if (!match) return null;
     return {
         line: parseInt(match[1], 10),

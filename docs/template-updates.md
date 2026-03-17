@@ -68,8 +68,8 @@ Pick up individual files (or all of them). For instance, to bring file `docs/gra
 ```
 ➜  dragon2js-casiano-rodriguez-leon-alu0100291865 git:(main) git checkout upstream/main docs/grammar/README.md
 Actualizada 1 ruta desde aeddf7e
-➜  dragon2js-casiano-rodriguez-leon-alu0100291865 git:(main) ✗ ls -l docs/grammar/README.md 
--rw-r--r--@ 1 casianorodriguezleon  staff  966 15 mar.  05:49 docs/grammar/README.md
+➜  dragon2js-casiano-rodriguez-leon-alu0100291865 git:(main) ✗ git -P diff upstream/main README.md
+➜  dragon2js-casiano-rodriguez-leon-alu0100291865 git:(main) ✗ 
 ```
 
 ## Merge the changes from `upstream/main` into your `main` branch:
