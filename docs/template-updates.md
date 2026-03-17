@@ -58,10 +58,18 @@ docs/grammar/types/types-and-initialization.md
 Pick up individual files (or all of them). For instance, to bring file `docs/grammar/README.md` from the template branch: 
 
 ```
-$ git checkout template/main docs/grammar/README.md
+$ git checkout template/main -- docs/grammar/README.md
 Actualizada 1 ruta desde aeddf7e
 $ git -P diff template/main README.md
 $  
 ```
+
+We can also use `git restore`:
+
+```
+git restore --source template/main docs/grammar/README.md
+```
+
+You can specify as many files as you want in the command. 
 
 ## Navigation: [← Previous](/README.md) | [↑ Top](/README.md) | [Next →](/docs/grammar/README.md)
