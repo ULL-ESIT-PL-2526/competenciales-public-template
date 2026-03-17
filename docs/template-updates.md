@@ -2,7 +2,7 @@
 
 ## Remote
 
-When in your working copy of the assignment you have only one remote `origin` pointing to your own fork (where you push your changes).  Confirm that with:
+When in your working copy of the assignment you have one remote `origin` pointing to your GitHUb assignment repository in the PL organization. Confirm that with:
 
 ```
 git remote -v
