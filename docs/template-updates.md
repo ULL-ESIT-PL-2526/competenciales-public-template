@@ -61,6 +61,8 @@ Pick up individual files (or all of them). For instance, to bring file `docs/gra
 
 ```
 $ git checkout template/main -- docs/grammar/README.md
+```
+```
 Actualizada 1 ruta desde aeddf7e
 $ git -P diff template/main README.md
 $  
