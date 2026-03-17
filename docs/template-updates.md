@@ -15,7 +15,7 @@ add as a remote the repo `ULL-ESIT-PL-2526/competenciales-public-template`:
 git remote add template https://github.com/ULL-ESIT-PL-2526/competenciales-public-template.git
 ```
 
-## Fetch from `template
+## Fetch from `template`
 
 The teachers will announce when they have made updates to the original template repository.
 This is certainly the case for projects that expand for several weeks or months using the `ULL-ESIT-PL-2526/competenciales-public-template` repository.  When that happens, you should fetch those updates into your local repository.
