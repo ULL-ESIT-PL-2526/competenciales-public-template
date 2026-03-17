@@ -38,6 +38,8 @@ Have a look at the differences between your `main` and `template/main` branches 
 
 ```
 $ git -P diff --name-only template/main
+```
+```
 README.md
 docs/grammar/README.md
 docs/grammar/ast-node-types.md
