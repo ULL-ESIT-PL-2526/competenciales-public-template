@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-/* Dragon to Babel JS AST to JS code using Babel generator */
+/* Dragon to Babel JS AST to JS code using Babel generator or manual generator */
 
 const parser = require('../src/parser.cjs');
 
@@ -18,6 +18,8 @@ program
     .description('Babel JS AST Generator. Transforms Dragon source code into Babel-compatible JavaScript AST and generates JavaScript code.')
     .option('-o, --output <fileName>', 'Output file name with generated JavaScript code (default: <input>.js)')
     .option('-a, --ast', 'Output the Babel AST as JSON instead of generated JavaScript code')
+    .option('-g --codegen <babel|manual>', 'Code generation method: "babel" to use @babel/generator, "manual" to traverse the AST and generate code manually (default: babel)', 'babel')
+    .option('-p --pretty', 'Format generated JavaScript code using Prettier (only applies if --codegen manual is used)', false)
     .option('-s, --sandbox', 'Execute generated JavaScript code in a sandboxed environment and print the output')
     .option('-v, --verbose', 'Enable verbose output')
     .addHelpText('after', `
@@ -29,6 +31,11 @@ If option --sandbox is specified, generated JavaScript code will be executed in 
 
 program.parse(process.argv);
 const options = program.opts();
+
+// Backward-compatible alias kept for older scripts.
+if (options.codegen === 'recast') {
+    options.codegen = 'babel';
+}
 
 async function main() {
     const inputFile = program.args[0];
@@ -48,14 +55,17 @@ async function main() {
     }
 
     try {
-        const ast = parser.parse(input);
+        let ast = parser.parse(input);
 
         printAstIfRequested(ast, inputFile, options);
-        const {code} = generateJavaScript(ast, options, input, inputFile);
+
+        const {code, map} = generateJavaScript(ast, options, input, inputFile);
 
         if (options.sandbox) {
             const sandboxResult = runSandboxWithDiagnostics(code, inputFile, {
                 verbose: options.verbose,
+                /* fill here */,
+                outputFile: options.output
             });
             if (!sandboxResult.ok) {
                 console.error(sandboxResult.message);
@@ -66,7 +76,7 @@ async function main() {
             }
         }
 
-        await writeJsOutput(code, options);
+        await writeJsOutput(code, options, /* fill here */);
     } catch (err) {
         console.error(formatError(err, inputFile));
         if (options.verbose) {

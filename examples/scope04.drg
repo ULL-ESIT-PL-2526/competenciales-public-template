@@ -1,8 +1,10 @@
 {
   int i; 
+  i = 1;
   {
     int i;
-    i = 0;
+    i = -1;
+    print(i);
   }
-  i = 0;
+  print(i); 
 }

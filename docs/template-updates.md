@@ -1,5 +1,8 @@
 # Updating your assignment with teacher updates
 
+This project expand for several weeks using the `ULL-ESIT-PL-2526/competenciales-public-template` repository.  When the teachers update the repo with new 
+files you should fetch those updates into your local repository.
+
 ## Add Remote `ULL-ESIT-PL-2526/competenciales-public-template`
 
 When in your working copy of the assignment you have one remote `origin` pointing to your GitHUb assignment repository in the PL organization. Confirm that with:
@@ -17,24 +20,28 @@ git remote add template https://github.com/ULL-ESIT-PL-2526/competenciales-publi
 
 ## Fetch from `template`
 
-The teachers will announce when they have made updates to the original template repository.
-This is certainly the case for projects that expand for several weeks or months using the `ULL-ESIT-PL-2526/competenciales-public-template` repository.  When that happens, you should fetch those updates into your local repository.
+The teachers will announce when they have made updates to the original template repository and the branch you need to fetch.
+
+Teachers will create a new branch per stage of the project with names `C1`, `C2`, etc. The branch `main` will contain the latest updates. 
+
+Fetch the latest updates from the `template` remote:
 
 ```
-git fetch template main
+git fetch template 
 ```
 
-This fetches the latest commits from the `main` branch of the `template` repository and updates your local `FETCH_HEAD`. You can view all your branches with:
+
+This fetches the latest commits from all the branches of the `template` repository and updates your local `FETCH_HEAD`. You can view all your branches with:
 
 ```
 git branch -a
 ```
 
-This should show you among others the `template/main` branch.
+This should show you among others the `template/main`, `template/C1`, `template/C2` etc. branches.
 
 ## Looking for what is new 
 
-Have a look at the differences between your `main` and `template/main` branches to see what files have changed from the last timeyou pick up the template remote using `git diff --name-only template/main`:
+To have a look at the differences between your `main` and `template/main` branches and  see what files have changed from the last time you pick up the template remote using `git diff --name-only template/main`:
 
 ```
 $ git -P diff --name-only template/main
@@ -80,5 +87,3 @@ git restore --source template/main 'docs/t*.md'
 ````
 
 Notice the use of quotes to avoid shell expansion of the wildcard. 
-
-## Navigation: [← Previous](/README.md) | [↑ Top](/README.md) | [Next →](/docs/grammar/README.md)

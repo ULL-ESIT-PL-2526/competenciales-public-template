@@ -1,6 +1,1 @@
-{ 
-    int[10] arr; 
-    bool b;
-    char s;
-    float x;
-}
+{ int[10] arr; }

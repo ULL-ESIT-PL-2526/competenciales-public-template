@@ -38,7 +38,7 @@ function printAstIfRequested(ast, inputFile, options) {
     }
 }
 
-async function writeJsOutput(jsCode, options) {
+async function writeJsOutput(jsCode, options, map) {
     if (options.pretty) {
         const prettier = require('prettier');
         jsCode = await prettier.format(jsCode, { parser: 'babel' });
@@ -50,7 +50,9 @@ async function writeJsOutput(jsCode, options) {
         return;
     }
 
-    fs.writeFileSync(options.output, jsCode);
+    const sourceMapRef = `${path.basename(options.output)}.map`;
+    fs.writeFileSync(options.output, jsCode + `\n//# sourceMappingURL=${sourceMapRef}`);
+    fs.writeFileSync(options.output + '.map', JSON.stringify(map, null, 2));
 
     if (!options.sandbox) {
         if (options.verbose) {

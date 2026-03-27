@@ -15,9 +15,8 @@
     "coverage": "jest --coverage",
     "predeploy:coverage": "npm run coverage -- --runInBand",
     "deploy:coverage": "gh-pages -d coverage/lcov-report",
-    "pra-comp": "bin/drg2js.cjs -v examples/prac-comp.drg -o /tmp/src/prac-comp.js",
-    "clean:examples": "rm -rf examples/*.js examples/*.ast.json examples/*.map",
-    "clean:fixtures": "rm -rf __tests__/fixtures/*.js __tests__/fixtures/*.ast.json __tests__/fixtures/*.map"
+    "pra-comp": "bin/drg2js.cjs -pg man -v examples/prac-comp.drg -o /tmp/src/prac-comp.js",
+    "clean:examples": "rm -rf examples/*.js examples/*.ast.json examples/*.map"
   },
   "keywords": [
     "dragon",
