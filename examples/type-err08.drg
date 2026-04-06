@@ -1,0 +1,7 @@
+{
+  char x;
+  float y;
+  x = "a";
+  y = 5.5;
+  print(x < y);
+}

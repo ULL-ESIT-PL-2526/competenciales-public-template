@@ -7,3 +7,6 @@ src/lexer.cjs
 *.output
 coverage
 tmp
+# Generated files in test fixtures should not be tracked
+__tests__/fixtures/*.js
+__tests__/fixtures/*.js.map

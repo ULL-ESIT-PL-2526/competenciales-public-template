@@ -116,6 +116,7 @@ describe('Dragon parser and ASTs', () => {
     const generatedJs = fs.readFileSync(outFile, 'utf8').trim();
     expect(generatedJs.startsWith('{')).toBe(true);
     expect(generatedJs).toContain('\n}');
+    expect(generatedJs).toContain(`//# sourceMappingURL=${path.basename(outFile)}.map`);
     expect(generatedJs).toContain('let $x = false;');
     expect(generatedJs).toContain('let $i = false;');
     expect(generatedJs).toContain('$i = true;');

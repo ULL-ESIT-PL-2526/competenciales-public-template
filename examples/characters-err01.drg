@@ -1,3 +1,0 @@
-{
-    print("Hello, Dragon!'); // Should throw an error due to mismatched quotes
-}

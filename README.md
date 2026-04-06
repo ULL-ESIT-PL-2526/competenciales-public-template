@@ -1,6 +1,6 @@
 # Dragon to JavaScript Translator
 
-A small compiler lab that translates Dragon language programs to JavaScript. We can swap out the code generation backend to use Babel or a manual visitor emitter. The generated JavaScript includes source maps for debugging and improve runtime error messages with location information referring back to the original Dragon source. 
+A small compiler lab that translates Dragon language programs to JavaScript.
 
 ## Updating your assignment with new code from public template
 
@@ -12,23 +12,28 @@ Current pipeline in branch `drg2js`:
 
 1. Lexical analysis with Jison lexer rules (`src/grammar.l`)
 2. Parsing with Jison grammar (`src/grammar.jison`) into a Babel-compatible JavaScript AST
-3. JavaScript code generation with Babel generator (or manual generator)
-4. Source map emission (`.js.map`) with Dragon source as origin
-5. Optional sandbox execution (`-s`) in Node `vm` (Where it acts as a source map consumer)
+3. **Scope analysis** - semantic analysis to validate variable declarations and scope rules
+4. JavaScript code generation with Babel generator (or manual generator)
+5. Source map emission (`.js.map`) with Dragon source as origin
+6. Optional sandbox execution (`-s`) in Node `vm`
 
 ```mermaid
 flowchart TD
   A[Dragon source .drg] --> B[Lexer + Parser]
   B --> C[Babel-compatible JS AST]
-  C --> D{Codegen mode}
-  D -->|babel| E[Babel generator]
-  D -->|manual| F[Manual visitor emitter]
-  E --> G[Generated .js + .js.map]
-  F --> G
-  G --> H{Run with -s?}
-  H -- No --> I[Done]
-  H -- Yes --> J[Run in Node vm]
-  J --> I
+  C --> D[Scope Analysis]
+  D --> E{Scope errors?}
+  E -->|Yes| F[Report errors]
+  F --> G[Exit]
+  E -->|No| H{Codegen mode}
+  H -->|babel| I[Babel generator]
+  H -->|manual| J[Manual visitor emitter]
+  I --> K[Generated .js + .js.map]
+  J --> K
+  K --> L{Run with -s?}
+  L -- No --> M[Done]
+  L -- Yes --> N[Run in Node vm]
+  N --> M
 ```
 
 ## Setup
@@ -39,6 +44,7 @@ npm run build
 ```
 
 `npm run build` regenerates `src/parser.cjs` from `src/grammar.jison` and `src/grammar.l`.
+
 
 ## CLI Usage
 
@@ -52,136 +58,157 @@ Options:
   - Default: `<input>.js`
 - `-a, --ast`: write AST JSON to `<output>.ast.json`.
 - `-g --codegen <babel|manual>`: select generator backend (default: `babel`).
+- `-p --pretty`: format generated JavaScript using Prettier (manual mode).
 - `-s, --sandbox`: execute generated JavaScript in sandbox.
 - `-v, --verbose`: enable verbose logging.
+- `--skip-scope-analysis`: skip scope analysis phase (useful for testing runtime errors).
 
-## Basic Example
+## Scope Analysis
 
-Generate JavaScript:
+The compiler performs semantic analysis to validate variable declarations and scope rules. This phase:
 
-```bash
-bin/drg2js.cjs -g man -v examples/prac-comp.drg -o tmp/src/prac-comp.js
+- **Detects undeclared variables** - reports when a variable is used without being declared
+- **Validates redeclarations** - prevents declaring the same variable twice in the same scope
+- **Validates break statements** - ensures `break` only appears inside loops
+- **Supports shadowing** - allows inner scopes to redefine outer scope variables
+- **Tracks type information** - preserves Dragon type annotations for future type checking phases
+
+### Scope Error Examples
+
+The scope analysis validates several types of scope constraints. Here are examples of each:
+
+#### 1. Undeclared Variable
+
+File: [examples/scope-err01.drg](examples/scope-err01.drg)
+
+`➜  dragon2js git:(C3scope) cat -n examples/`
+```C
+scope-err01.drg
+     1  { a = 0.0; }
 ```
 
-This writes [tmp/prac-comp.js](tmp/prac-comp.js) and [tmp/prac-comp.js.map](tmp/prac-comp.js.map) using the `manual` code generator.
+Error output:
 
-## Debug in Chrome and VS Code
-
-Prepare debuggable output:
-
-```bash
-npm run debug:prepare -- examples/prac-comp.drg
+```console
+bin/drg2js.cjs examples/scope-err01.drg
+```
+```
+Scope Error: Variable 'a' is not declared
+  at examples/scope-err01.drg:1:2
 ```
 
-This will write `tmp/prac-comp.js` and `tmp/prac-comp.js.map` with source 
-maps pointing to the original `examples/prac-comp.drg` source.
-Then launch Node inspector from the `tmp/` folder:
+#### 2. Variable Not in Scope (Nested Blocks)
 
-```bash
-cd tmp
-node --inspect-brk --enable-source-maps prac-comp.js
+File: [examples/scope-err02.drg](examples/scope-err02.drg):
+
+```console
+➜  dragon2js git:(C3scope) cat -n examples/scope-err02.drg
+```
+```C
+     1  {
+     2    int i; 
+     3    float[10][10] a;
+     4    { 
+     5      int i; int j;
+     6      a[i][j] = 0.0;
+     7      k = 0; // Error: k is not declared in this scope
+     8    }
+     9    a[i][j] = 0.0; // Undeclared variable 'j' at line 9
+    10  }
 ```
 
-In Chrome, open `chrome://inspect` and click on `inspect` or open Chrome DevTools and attach to the Node target. You should be able to step through the Dragon source via source maps:
+Output:
 
-![Debugging Dragon in Chrome](docs/images/debugging-dragon-in-chrome.png)
-
-Or easier, you can open the generated JavaScript file in VS Code and set breakpoints directly in the Dragon source code (thanks to source maps):
-
-![Debugging Dragon in VS Code](docs/images/debugging-dragon-in-vscode.png)
-
-## Runtime Error Mapped To Dragon
-
-You can also debug a runtime failure and see the mapped Dragon location in diagnostics messages. For instance, run [/examples/runtime-err01-loop.drg](/examples/runtime-err01-loop.drg) with `-s`:
-
-```bash
-bin/drg2js.cjs examples/runtime-err01-loop.drg -s
+```console
+$ bin/drg2js.cjs examples/scope-err02.drg -o tmp/scope-err02.js   
+```
+```console
+Scope Error: Variable 'k' is not declared
+  at examples/scope-err02.drg:7:4
+Scope Error: Variable 'j' is not declared
+  at examples/scope-err02.drg:9:7
 ```
 
-Expected message format:
+This example demonstrates:
+- **Shadowing**: inner block redefines `i` (allowed)
+- **Scope isolation**: variables declared in inner block (`j`) are not visible in outer block
+- **Multiple errors**: reports all undeclared variable errors
+
+#### 3. Redeclaration in Same Scope
+
+File: `examples/scope-err03.drg`
+```C
+{
+  int i; 
+  int i; int j;             // Error: 'i' is already declared in this scope
+  i = 0;
+}
+```
+
+Output:
+
+```console
+$ bin/drg2js.cjs examples/scope-err03.drg -o tmp/scope-err03.js
+```
+```
+Scope Error: Variable 'i' is already declared in this scope
+  at examples/scope-err03.drg:3:2
+```
+Attempting to declare the same variable twice in the same block is an error. Note that redeclaring in an *inner* scope is allowed (shadowing).
+
+#### 4. Break Outside Loop
+
+File: [examples/scope-err04.drg](examples/scope-err04.drg)
+
+```C
+{  
+  break;                    // Error: break must be inside a loop
+}
+```
+
+The `break` statement is only allowed inside `while` or `do...while` loops:
+
+```console 
+➜  dragon2js git:(C3scope) bin/drg2js.cjs examples/scope-err04.drg
+Scope Error: Break statement must be inside a loop
+  at examples/scope-err04.drg:2:4
+```
+
+### Scope Analysis and JavaScript Globals
+
+Since Dragon identifiers are prefixed with `$`, all JavaScript globals (like `console`, `Array`, `Object`, `Math`, etc.) can be safely used by the generated code without triggering scope validation errors. The scope analysis only validates Dragon user variables; JavaScript system identifiers are assumed to exist in the runtime environment.
+
+### Skipping Scope Analysis
+
+For testing purposes, you can skip scope analysis with the `--skip-scope-analysis` flag:
+
+```bash
+bin/drg2js.cjs examples/scope-err01.drg --skip-scope-analysis -o tmp/test.js
+```
+
+This allows compilation even with scope errors, useful when testing runtime behavior of intentionally invalid code.
+
+## Project Structure
 
 ```text
-Error: Illegal break statement
-At source examples/runtime-err01-loop.drg:2:5
-At generated code examples/runtime-err01-loop.js:2:1
-```
-
-Notice the mapped Dragon source location in the error message. This is implemented in `src/sandbox-helpers.cjs` using `source-map` to remap the generated error stack trace to Dragon source locations.
-
-Here is a second example `bin/drg2js.cjs examples/runtime-err02-arrayaccess.drg -s` that demonstrates a runtime error from an out-of-bounds array access:
-
-```
-Error: Cannot read properties of undefined (reading '0')
-At source examples/runtime-err02-arrayaccess.drg:6:3
-At generated code examples/runtime-err02-arrayaccess.js:4:1
-```
-
-and a third example  `bin/drg2js.cjs examples/runtime-err03-arrayassign.drg -s`:
-
-```
-Error: Cannot set properties of undefined (setting '0')
-At source examples/runtime-err03-arrayassign.drg:6:3
-At generated code examples/runtime-err03-arrayassign.js:4:1
-```
-
-## Project Structure and What has Changed
-
-```text
-├── __tests__
-│   ├── codegen.test.cjs.# Tests for code generation. Add to your project
-│   ├── drg2js.test.cjs
-│   ├── fixtures         # Consolidated examples for testing
-│   │   ├── bool01.drg
-│   │   ├── ...│
-│   │   └── syntax-err01.drg
-│   ├── runtime-errors.test.cjs
-│   └── syntax-errors.test.cjs
-|-- docs/          # Some new documentation files about codegen and scope analysis. 
+.
+|-- __tests__/
 |-- bin/
-|   |-- drg2js.cjs          # Options have changed. Add changes to your project
-|   |-- debug-prepare.cjs   # Helper to prepare debuggable output with source maps
-├── examples       # Some may have changed
-│   ├── bool01.drg
-│   ├── input0.drg
-│   ├── ...
-│   └── type06.drg
-`-- src/
-     |-- grammar.jison        # Use yours
-     |-- grammar.l            # Use yours
-     |-- parser.cjs           # Generated by jison from grammar.jison and grammar.l
-     |-- codegen.cjs # <-- Most of your work in this lab goes here 
-     |-- io-helpers.cjs
-     `-- sandbox-helpers.cjs. # Relevant to this lab
+|   |-- drg2js.cjs
+|   |-- debug-prepare.cjs
+└── src
+    ├── ast-builders.cjs
+    ├── codegen.cjs
+    ├── grammar.jison
+    ├── grammar.l
+    ├── index.cjs
+    ├── io-helpers.cjs
+    ├── parser.cjs
+    ├── sandbox-helpers.cjs
+    └── scope-analysis.cjs
 ```
-## How to do it 
 
-- [codegen](docs/codegen/README.md)
+## How to 
 
-## Referencias
+- See [docs/scope/README.md](docs/scope/README.md)
 
-### Babel 
-
-- [Babel Parser API](https://babeljs.io/docs/babel-parser)
-- [Babel Traverse](https://babeljs.io/docs/babel-traverse) 
-- [Babel Plugin Examples](https://github.com/ULL-ESIT-PL/babel-learning/blob/main/src/awesome/README.md).
-- [Babel Source Map Options](https://babeljs.io/docs/options#source-map-options)
-
-### Source maps
-
-* Slides in 2024 Web Engines Hackfest: The Future of Source Maps by Jonathan Kuperman (TC39 and Engineer at Bloomberg) 
-  * [Slides](https://webengineshackfest.org/2024/slides/the_future_of_source_maps_by_jonathan_kuperman.pdf) 
-  * [Video of the talk](https://youtu.be/dre3gPQlYvg?si=GiZynwEtosHqnDgw) 
-- Blog [Source maps from top to bottom](https://craigtaub.dev/source-maps-from-top-to-bottom), [Video](https://www.youtube.com/watch?v=nUV4t5V16I4) and [repo craigtaub/our-own-babel-sourcemap)](https://github.com/craigtaub/our-own-babel-sourcemap) by Craig Taub 
-- [Source Map Spec](https://tc39.es/ecma426/) ECMA-426 
-- Source Map Visualization tool: 
-  
-  [![the examples/prac-comp.drg with source map](/docs/images/source-map-visualizer.png)](https://evanw.github.io/source-map-visualization/)
-- Calculadora [BASE64 VLQ CODEC (COder/DECoder) AND SOURCEMAP V3 / ECMA-426 MAPPINGS PARSER](https://www.murzwin.com/base64vlq.html)
-- [How to Implement Source Maps](https://oneuptime.com/blog/post/2026-01-30-source-maps) Learn to implement source maps for debugging transpiled code with generation, hosting, and security considerations for production debugging.
-- [Source Map MDN](https://developer.mozilla.org/en-US/docs/Glossary/Source_map)
-- [Using source maps in DevTools](https://www.youtube.com/embed/SkUcO4ML5U0) Youtube video by Chrome DevTools team
-* [Wikipedia: Source-to-source compiler](https://en.wikipedia.org/wiki/Source-to-source_compiler)
-
-### WeakMap
-
-- [WeakMap MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap) 

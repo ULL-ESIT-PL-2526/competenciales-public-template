@@ -10,6 +10,7 @@ const { Command } = require('commander');
 const packageJson = require('../package.json');
 const { formatError, printAstIfRequested, validateInputFile, writeJsOutput } = require('../src/io-helpers.cjs');
 const { runSandboxWithDiagnostics } = require('../src/sandbox-helpers.cjs');
+const { scopeAnalyze } = require('../src/scope-analysis.cjs');
 
 const program = new Command();
 
@@ -22,6 +23,7 @@ program
     .option('-p --pretty', 'Format generated JavaScript code using Prettier (only applies if --codegen manual is used)', false)
     .option('-s, --sandbox', 'Execute generated JavaScript code in a sandboxed environment and print the output')
     .option('-v, --verbose', 'Enable verbose output')
+    .option('--skip-scope-analysis', 'Skip scope analysis phase (for testing purposes)', false)
     .addHelpText('after', `
 If option --ast is specified, and option --output is specified, the Babel AST will be saved to a file with the name specified in --output concatenated with '.ast.json'.
 If option --ast and option --verbose are specified together, the AST structure will be printed to stderr in a human-readable format using insp() with depth: null, and the generated JavaScript code will be printed to stdout.
@@ -59,24 +61,21 @@ async function main() {
 
         printAstIfRequested(ast, inputFile, options);
 
+
+        if (!options.skipScopeAnalysis) {
+            ast = scopeAnalyze(ast, options);
+
+            // Check for scope analysis errors
+            /* fill here */
+        }
+
         const {code, map} = generateJavaScript(ast, options, input, inputFile);
 
         if (options.sandbox) {
-            const sandboxResult = runSandboxWithDiagnostics(code, inputFile, {
-                verbose: options.verbose,
-                /* fill here */,
-                outputFile: options.output
-            });
-            if (!sandboxResult.ok) {
-                console.error(sandboxResult.message);
-                if (sandboxResult.stack) {
-                    console.error(sandboxResult.stack);
-                }
-                process.exit(1);
-            }
+            /* file here. Update your code from the previous lab */
         }
 
-        await writeJsOutput(code, options, /* fill here */);
+        await writeJsOutput(code, options, map);
     } catch (err) {
         console.error(formatError(err, inputFile));
         if (options.verbose) {

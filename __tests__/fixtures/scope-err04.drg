@@ -1,0 +1,3 @@
+{  // must this error be managed by the scope analysis? Or is it a type error?  
+    break;
+}

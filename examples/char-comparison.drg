@@ -1,7 +1,0 @@
-{
-    char c;
-    bool b;
-    b = (c == c);
-    print(c); // undefined 
-    print(b); // true
-}

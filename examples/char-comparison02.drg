@@ -1,7 +1,0 @@
-{
-    char c;
-    char d;
-    bool b;
-    b = (c == d);
-    print(b); // true. Both are empty
-}

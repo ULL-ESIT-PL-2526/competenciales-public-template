@@ -1,6 +1,0 @@
-{
-    char greeting;
-    greeting = 'Hello ';
-    greeting = greeting + 'world';
-    print(greeting);
-}

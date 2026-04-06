@@ -1,5 +1,5 @@
 // Generate JS code with: bin/drg2js.cjs examples/prac-comp.drg -vo tmp/prac-comp.js
-// This writes `tmp/prac-comp.js` with JavaScript code generated from the original `examples/prac-comp.drg` source.
+// This writes `tmp/prac-comp.js and `tmp/prac-comp.js.map` with source maps pointing to the original `examples/prac-comp.drg` source.
 {
   int i; int j; float[10][10] a; // Declaration nodes
   i = -1;                        // UnaryOp node 

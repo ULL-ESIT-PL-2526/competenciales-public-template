@@ -1,0 +1,6 @@
+{
+    bool[2] b; int i;
+    i = -1;
+    b[i] = true;
+    print(b);
+}
