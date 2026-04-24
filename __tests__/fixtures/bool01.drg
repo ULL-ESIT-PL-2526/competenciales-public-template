@@ -1,0 +1,8 @@
+{
+    bool x;
+    bool i;
+
+    i = true;
+    x = i && 1.0 < 3; 
+    print(x);
+}

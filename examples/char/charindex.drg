@@ -1,0 +1,5 @@
+{
+    char c;
+    c = "hello";  
+    print(c[0]); // "h"
+}

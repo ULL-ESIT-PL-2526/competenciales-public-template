@@ -1,0 +1,10 @@
+{
+  int i; 
+  float[10][10] a;
+  { 
+    int i; int j;
+    a[i][j] = 0.0;
+    k = 0; // Error: k is not declared in this scope
+  }
+  a[i][j] = 0.0; // Undeclared variable 'j' at line 9
+}

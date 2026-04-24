@@ -1,0 +1,16 @@
+{
+    float[10] x;
+    float[10] i;
+    int j;
+    j = 0;
+    while (j < 10) {
+        x[j] = j * 1.0;
+        j = j + 1;
+    }   
+    i = x; 
+    j = 0;
+    while (j < 10) {
+        // print(i[j]);
+        j = j + 1;
+    }
+}

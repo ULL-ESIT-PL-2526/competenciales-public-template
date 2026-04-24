@@ -1,0 +1,14 @@
+{
+    int[3] arr1;
+    int[3] arr2;
+    int i;
+    do {
+        arr1[i] = 5;
+        arr2[i] = 5;
+        i = i + 1;
+    } while (i < 3);
+    arr1[2] = 10; // Change one element to make them different
+    print(arr1 == arr2);  //
+    //print(arr1 <= arr2);  // Error
+    print(arr1 + arr2); // Error
+}

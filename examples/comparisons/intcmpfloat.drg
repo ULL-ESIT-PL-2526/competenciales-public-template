@@ -1,0 +1,7 @@
+{ 
+    float x; int y; bool z; 
+    x = 1;
+    y = 1;
+    z = x == y; 
+    print(z); // true, porque y se promueve a float antes de la comparación
+} 

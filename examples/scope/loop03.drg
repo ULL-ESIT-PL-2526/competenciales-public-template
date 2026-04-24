@@ -1,0 +1,9 @@
+{
+    bool a;
+    do {
+        while (a) {
+            break;
+        }
+        break;
+    } while (a);
+}

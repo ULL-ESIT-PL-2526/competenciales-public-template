@@ -1,0 +1,12 @@
+{
+  "version": 3,
+  "sources": [
+    "examples/types/array-equality.drg"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AACI;;AACA;;AACA",
+  "file": "array-equality.js",
+  "sourcesContent": [
+    "{\n    int[10] a;\n    int[10] b;\n    print(a == b);\n}"
+  ]
+}

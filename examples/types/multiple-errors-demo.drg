@@ -1,0 +1,11 @@
+{
+  char a;
+  // Multiple errors in the same expression
+  // a < 5 + "hello"
+  // This has TWO type errors:
+  // 1. a < 5 (char with int)
+  // 2. 5 + "hello" (int with char)
+  // But with ERROR_TYPE, only ONE error is reported (the first one encountered)
+  bool result;
+  result = a < (5 + "hello");
+}

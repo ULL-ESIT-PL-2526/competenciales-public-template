@@ -1,0 +1,14 @@
+{
+    bool[3] arr1;
+    bool[3] arr2;
+    int i;
+    do {
+        arr1[i] = true;
+        arr2[i] = true;
+        i = i + 1;
+    } while (i < 3);
+    arr1[2] = false; // Change one element to make them different
+    print(arr1 == arr2);  //
+    //print(arr1 <= arr2);  // Error
+    //print(arr1 + arr2); // Error
+}

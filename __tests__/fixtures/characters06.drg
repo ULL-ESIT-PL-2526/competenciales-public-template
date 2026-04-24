@@ -1,0 +1,6 @@
+{
+    char[2] a;
+    a[0] = "Hello, \"Dragon!\""; 
+    a[1] = 'Hello, \'Dragon!\'';
+    print(a); 
+}

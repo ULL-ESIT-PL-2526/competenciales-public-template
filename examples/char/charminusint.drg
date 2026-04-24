@@ -1,0 +1,9 @@
+{
+    int a;
+    float b;
+    bool c;
+    a = 42;       // int literal
+    b = 3.14;     // float literal
+    c = true;     // bool literal
+    print("a = " - a - ", b = " - b - ", c = " - c); // string concatenation with int
+}

@@ -1,0 +1,6 @@
+{
+    float[10] x;
+    float[10] i;
+    i = x + i; // - Type error at line 4:8: Arithmetic operator + requires numeric operands, got float[10] + float[10]
+               // - Type error at line 4:8: Cannot determine right side type of assignment (value)
+}

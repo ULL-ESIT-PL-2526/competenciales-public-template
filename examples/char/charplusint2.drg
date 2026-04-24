@@ -1,0 +1,10 @@
+{
+    int a;
+    float b;
+    bool c;
+    a = 42;       // int literal
+    b = 3.14;     // float literal
+    c = true;     // bool literal
+    print(a + " is a, " + b + " is b"); // string concatenation with int
+    print(c + " is c"); // string concatenation with bool
+}

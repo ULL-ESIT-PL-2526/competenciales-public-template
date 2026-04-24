@@ -1,0 +1,5 @@
+{
+    char greeting;
+    greeting = 'Hello, Dragon!';
+    print(greeting);
+}

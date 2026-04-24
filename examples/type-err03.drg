@@ -1,0 +1,4 @@
+{
+    bool x;
+    x = 3 && false; //   - Type error at line 3:8: Logical operator && requires boolean operands, got int && bool
+}

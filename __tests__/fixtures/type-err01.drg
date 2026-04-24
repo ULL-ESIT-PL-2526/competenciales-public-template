@@ -1,0 +1,5 @@
+{
+    float x;
+    bool i;
+    x = i && 1.0 < 3; // Type error at line 4:4: Cannot assign bool to float
+}

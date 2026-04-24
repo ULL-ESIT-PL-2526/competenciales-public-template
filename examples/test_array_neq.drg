@@ -1,0 +1,18 @@
+{
+  int[3][3] arr1;
+  int[3][3] arr2;
+  int i; int j;
+  
+  while (i < 3) {
+    j = 0;
+    while (j < 3) {
+      arr1[i][j] = i + j;
+      arr2[i][j] = i + j;
+      j = j + 1;
+    }
+    i = i + 1;
+  }
+  arr1[2][2] = 99; // Change one element to make them different
+  
+  print(arr1 != arr2); //true
+}

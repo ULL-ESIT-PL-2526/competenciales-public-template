@@ -1,0 +1,5 @@
+{
+    int i;
+    i = (1 + 2)/0;
+    print(i); // Outputs Infinity
+}
