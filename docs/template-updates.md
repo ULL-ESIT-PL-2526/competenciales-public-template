@@ -12,7 +12,7 @@ git remote -v
 ```
 
 To get the latest updates the teachers will add during the course, you must first 
-add as a remote the repo `ULL-ESIT-PL-2526/competenciales-public-template`:
+add as a remote the repo `ULL-ESIT-PL-2526/competenciales-public-template`. Let us call it **template**. You only need to do this once:
 
 ```
 git remote add template https://github.com/ULL-ESIT-PL-2526/competenciales-public-template.git
@@ -44,7 +44,7 @@ This should show you among others the `template/main`, `template/C1`, `template/
 To have a look at the differences between your `main` and `template/main` branches and  see what files have changed from the last time you pick up the template remote using `git diff --name-only template/main`:
 
 ```
-$ git -P diff --name-only template/main
+$ git -P diff --name-only template/C1
 ```
 ```
 README.md
@@ -67,7 +67,7 @@ docs/grammar/types/types-and-initialization.md
 Pick up individual files (or all of them). For instance, to bring file `docs/grammar/README.md` from the template branch: 
 
 ```
-$ git checkout template/main -- docs/grammar/README.md
+$ git checkout template/C1 -- docs/grammar/README.md
 ```
 ```
 Actualizada 1 ruta desde aeddf7e
