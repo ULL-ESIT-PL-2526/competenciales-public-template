@@ -22,7 +22,7 @@ git remote add template https://github.com/ULL-ESIT-PL-2526/competenciales-publi
 
 The teachers will announce when they have made updates to the original template repository and the branch you need to fetch.
 
-Teachers will create a new branch per stage of the project with names `C1`, `C2`, `C3`, etc. The branch `main` will contain the latest updates. 
+Teachers will create a new branch per stage of the project with names `C1`, `C2`, `C3`, etc.  
 
 Fetch the latest updates from the `template` remote:
 
