@@ -75,15 +75,15 @@ $ git -P diff template/main README.md
 $  
 ```
 
-We can also use `git restore`:
+We can also use `[git restore](https://git-scm.com/docs/git-restore)`:
 
 ```
-git restore --source template/main docs/grammar/README.md
+git restore --source template/C4 docs/grammar/README.md
 ```
 
 You can specify as many files as you want in the command: 
 ```
-git restore --source template/main 'docs/t*.md'
+git restore --source template/C4 'docs/t*.md'
 ````
 
 Notice the use of quotes to avoid shell expansion of the wildcard. 
