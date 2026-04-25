@@ -75,7 +75,7 @@ $ git -P diff template/main README.md
 $  
 ```
 
-We can also use `[git restore](https://git-scm.com/docs/git-restore)`:
+We can also use [git restore](https://git-scm.com/docs/git-restore):
 
 ```
 git restore --source template/C4 docs/grammar/README.md
