@@ -2,6 +2,10 @@
 
 A small compiler lab that translates Dragon language programs to JavaScript. This branch contains the template for the *Type Analysis* phase.
 
+## Updating your assignment
+
+See section [docs/template-updates.md](/docs/template-updates.md)
+
 ## Overview
 
 Current pipeline in branch `drg2js`:
