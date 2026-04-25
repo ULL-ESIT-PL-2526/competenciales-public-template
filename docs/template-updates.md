@@ -5,7 +5,7 @@ files you should fetch those updates into your local repository.
 
 ## Add Remote `ULL-ESIT-PL-2526/competenciales-public-template`
 
-When in your working copy of the assignment you have one remote `origin` pointing to your GitHUb assignment repository in the PL organization. Confirm that with:
+When in your working copy of the assignment you have one remote `origin` pointing to your GitHub assignment repository in the PL organization. Confirm that with:
 
 ```
 git remote -v
