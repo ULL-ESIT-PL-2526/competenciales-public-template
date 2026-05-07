@@ -1,0 +1,5 @@
+{
+    float[10] x;
+    float[10] i;
+    i = x; 
+}

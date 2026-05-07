@@ -1,0 +1,7 @@
+{
+  char c;
+  int x;
+  c = "a";
+  x = 97;
+  print(c < x);
+}

@@ -1,0 +1,15 @@
+/*
+  The IEEE 754 standard defines +0.0 as all bits set to zero: 
+  +0.0 (float, 32 bits):
+  Sign Exponent Mantissa
+  0    00000000 00000000000000000000000
+  So, zeroinitializer and 0.0 are practically equivalent.
+
+   The nuance is that IEEE 754 also defines -0.0 (sign=1, remainder zeros), 
+   which is a different bit value even though +0.0 == -0.0 is numerically true. 
+   zeroinitializer always returns +0.0.    
+*/
+{
+    float f;
+    print(f); // 0
+}

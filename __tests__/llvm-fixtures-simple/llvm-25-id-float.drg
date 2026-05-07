@@ -1,0 +1,4 @@
+{
+  float f; 
+  print(f); // 0
+}

@@ -1,0 +1,6 @@
+{
+  bool i; 
+  print(i); // false
+  i = true;
+  print(i); // true
+}

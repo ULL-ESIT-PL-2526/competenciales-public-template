@@ -1,0 +1,3 @@
+{
+    print("hello" + " world!"); // Since we rely on JS it will concatenate
+}

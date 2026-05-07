@@ -1,0 +1,7 @@
+{
+  char a;
+  char b;
+  a = "hello";
+  b = "world";
+  print(a < b);
+}

@@ -1,0 +1,15 @@
+{
+    int[10] a;
+    float[5] b;
+    bool[3] flags;
+    int i;
+
+    a[0] = 42;
+    i = 2;
+    b[i] = 3.14;
+    flags[1] = true;
+
+    print(a[0]);
+    print(b[2]);
+    print(flags[1]);
+}

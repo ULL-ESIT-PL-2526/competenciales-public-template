@@ -1,0 +1,12 @@
+{
+  int x;
+  bool b;
+  char c;
+  // c < 5 is an error (char < int)
+  // Then we use that error in a boolean operation
+  b = (c < 5) && true;
+  // Then we use that in a condition
+  if (b) {
+    x = 1;
+  }
+}

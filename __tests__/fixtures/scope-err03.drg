@@ -1,0 +1,5 @@
+{ // Variable declared twice in the same scope
+  int i; 
+  int i; int j;
+  i = 0;
+}

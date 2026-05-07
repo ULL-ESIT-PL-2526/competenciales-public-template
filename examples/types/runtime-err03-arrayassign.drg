@@ -1,0 +1,7 @@
+{
+  int i;
+  i = 0;
+
+  // Semantic error, but since we do not have Semantic analysis, is now a runtime error: i[0] is undefined, so i[0][0] assignment fails.
+  i[0][0] = 1;
+}

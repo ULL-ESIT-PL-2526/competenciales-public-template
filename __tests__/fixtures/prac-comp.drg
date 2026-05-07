@@ -1,0 +1,20 @@
+// Generate JS code with: bin/drg2js.cjs examples/prac-comp.drg -vo tmp/prac-comp.js
+// This writes `tmp/prac-comp.js and `tmp/prac-comp.js.map` with source maps pointing to the original `examples/prac-comp.drg` source.
+{
+  int i; int j; float[10][10] a; // Declaration nodes
+  i = -1;                        // UnaryOp node 
+  while ( i < 9) {               // While node
+    i = i + 1;                   // Assignment and BinaryOp nodes
+    j = 0;
+    while ( j < 10 ) {                          // While node
+      if (j < 5) a[i][j] = 0; else a[i][j] = 1; // IfElse and ArrayAccess nodes
+      print(a[i][j]); // Print node
+      j = j + 1;
+    }
+  }
+  i = 0;                 // Assignment node
+  do {                   // DoWhile node
+      if (i == 5) break; // Break node
+      i = i + 1;
+  } while (i < 10);
+}

@@ -1,0 +1,5 @@
+{
+    char x;
+    char i;
+    i = x + i; 
+}

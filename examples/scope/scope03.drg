@@ -1,0 +1,4 @@
+{
+  int i; int j; float[10][10] a;
+  a[i][j] = 0.0;
+}

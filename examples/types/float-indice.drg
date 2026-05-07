@@ -1,0 +1,7 @@
+{
+    int[10] a;
+    float f;
+    f = 4.5;
+    a[f] = a[3.2]; // Type Error: Array index must be integer, not float
+    print(a[4.5]); 
+}

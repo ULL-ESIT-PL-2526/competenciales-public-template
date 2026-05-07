@@ -1,0 +1,7 @@
+{
+    int i;
+    float f;
+    i = 4;
+    f = i +1.5;
+    print(f);
+}

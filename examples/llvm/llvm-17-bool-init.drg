@@ -1,0 +1,4 @@
+{
+    bool b;
+    print(b); 
+}

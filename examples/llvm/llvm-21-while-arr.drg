@@ -1,0 +1,10 @@
+{
+  int i; 
+  int[10] a;
+  while ( i < 10 ) {
+      i = i + 1;
+      a[i] = 2*i;
+      print(i);
+      print(a[i]);
+  }
+}

@@ -1,0 +1,7 @@
+{
+    char c;
+    int x;
+    print(c < x);    // ✓ Valid (char is comparable)
+    c = c + 1;       // ✗ Error: arithmetic operator + requires scalar numeric operands
+    x = c;           // ✗ Error: Type mismatch in assignment (char cannot promote to int)
+}

@@ -1,0 +1,7 @@
+{
+    int i;
+    bool b;
+    i = 7;
+    b = i < 10;
+    print(b);
+}

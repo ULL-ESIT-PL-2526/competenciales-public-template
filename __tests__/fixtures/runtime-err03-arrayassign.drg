@@ -1,0 +1,7 @@
+{
+  int i;
+  i = 0;
+
+  // Runtime error: i[0] is undefined, so i[0][0] assignment fails.
+  i[0][0] = 1;
+}

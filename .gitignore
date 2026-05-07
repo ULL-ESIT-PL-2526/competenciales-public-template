@@ -1,0 +1,12 @@
+node_modules/
+dist/
+*.log
+.DS_Store
+src/parser.cjs
+src/lexer.cjs
+*.output
+coverage
+tmp
+# Generated files in test fixtures should not be tracked
+__tests__/fixtures/*.js
+__tests__/fixtures/*.js.map
